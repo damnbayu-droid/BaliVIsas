@@ -18,7 +18,12 @@ import {
   Clock,
   HeadphonesIcon as Headphones,
   ArrowRight,
+  Instagram,
+  Facebook,
+  Linkedin,
+  Youtube,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -171,19 +176,42 @@ export default function Home() {
   ];
 
   const socialLinks = [
-    { name: "Telegram", url: "https://t.me/IndonesianVisas", color: "bg-slate-800" },
-    { name: "Instagram", url: "https://instagram.com/balihelp.id", gradient: "bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600" },
-    { name: "TikTok", url: "https://www.tiktok.com/@balihelp.id", color: "bg-black" },
-    { name: "Facebook", url: "https://facebook.com/BaliHelp", color: "bg-blue-600" },
-    { name: "Twitter", url: "https://twitter.com/IndonesianVisas", color: "bg-sky-500" },
-    { name: "LinkedIn", url: "https://www.linkedin.com/in/bayu-damopolii-887ab883/", color: "bg-blue-700" },
-    { name: "YouTube", url: "https://youtube.com/@balihelp", color: "bg-red-600" },
+    { name: "Instagram", url: "https://instagram.com/balihelp.id", icon: <Instagram className="w-6 h-6" />, gradient: "bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600" },
+    { name: "Facebook", url: "https://facebook.com/BaliHelp", icon: <Facebook className="w-6 h-6" />, color: "bg-blue-600" },
+    { name: "LinkedIn", url: "https://www.linkedin.com/in/bayu-damopolii-887ab883/", icon: <Linkedin className="w-6 h-6" />, color: "bg-blue-700" },
+    { name: "YouTube", url: "https://youtube.com/@balihelp", icon: <Youtube className="w-6 h-6" />, color: "bg-red-600" },
+    { name: "WhatsApp", url: "https://wa.me/61423854701", icon: <MessageCircle className="w-6 h-6" />, color: "bg-green-500" },
   ];
 
 
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Bali Visas Agency",
+    "url": "https://balivisas.agency",
+    "logo": "https://balivisas.agency/logo.webp",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+61 423 854 701",
+      "contactType": "customer service",
+      "areaServed": "ID",
+      "availableLanguage": ["en", "id"]
+    },
+    "sameAs": [
+      "https://instagram.com/balihelp.id",
+      "https://facebook.com/BaliHelp",
+      "https://www.linkedin.com/in/bayu-damopolii-887ab883/",
+      "https://youtube.com/@balihelp"
+    ]
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 w-full overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Toast */}
 
       {/* Navigation */}
@@ -539,7 +567,7 @@ export default function Home() {
                   className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white transition-all hover:scale-110 hover:shadow-lg ${social.color || social.gradient}`}
                   aria-label={social.name}
                 >
-                  <span className="text-sm md:text-base font-bold">{social.name[0]}</span>
+                  {social.icon}
                 </a>
               ))}
             </div>
@@ -552,9 +580,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-6">
             <h3 className="text-white text-2xl md:text-3xl font-bold mb-3">Bali Visas</h3>
-            <p className="text-slate-300 text-sm md:text-base max-w-2xl mx-auto mb-4 leading-relaxed">
+            <p className="text-slate-300 text-sm md:text-base max-w-2xl mx-auto mb-2 leading-relaxed">
               Professional Indonesian visa services with 16+ years experience. Fast, reliable, and trusted by thousands worldwide.
             </p>
+            <a href="/site-map" className="text-slate-400 hover:text-white transition-colors text-xs md:text-sm font-medium underline underline-offset-4 mb-4 inline-block">
+              (sitemap)
+            </a>
           </div>
           <div className="border-t border-slate-600 pt-6 pb-4 text-center">
             <div className="text-slate-300 text-sm md:text-base mb-4 font-semibold leading-relaxed">
@@ -566,20 +597,12 @@ export default function Home() {
               <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 text-xs md:text-sm">
                 <a href="https://bali.enterprises" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">bali.enterprises</a>
                 <span className="text-slate-500">•</span>
-                <a href="https://visa.biz.id" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">visa.biz.id</a>
+                <a href="https://indonesianvisas.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">indonesianvisas.com</a>
+                <span className="text-slate-500">•</span>
+                <a href="https://balihelp.id" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">balihelp.id</a>
                 <span className="text-slate-500">•</span>
                 <a href="https://visas.agency" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">visas.agency</a>
                 <span className="text-slate-500">•</span>
-                <a href="https://www.balihelp.id" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">www.balihelp.id</a>
-                <span className="text-slate-500">•</span>
-                <a href="https://voabali.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">voabali.com</a>
-                <span className="text-slate-500">•</span>
-                <a href="https://voajakarta.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">voajakarta.com</a>
-              </div>
-              <div className="mt-2">
-                <a href="https://visa.biz.id/all-service-domain" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors font-bold text-xs md:text-sm">
-                  All Service Domain
-                </a>
               </div>
             </div>
             <div className="flex flex-wrap justify-center gap-2 md:gap-3 text-xs md:text-sm">
@@ -596,6 +619,19 @@ export default function Home() {
       </footer>
 
 
+      {/* Floating WhatsApp */}
+      <a
+        href="https://wa.me/61423854701"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 hover:scale-110 transition-all duration-300 group"
+        aria-label="Chat on WhatsApp"
+      >
+        <MessageCircle className="w-6 h-6 md:w-8 md:h-8" />
+        <span className="absolute right-full mr-3 bg-white text-slate-800 px-3 py-1 rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md pointer-events-none">
+          Need help? Chat with us!
+        </span>
+      </a>
     </div >
   );
 }

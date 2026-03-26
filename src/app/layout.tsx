@@ -16,13 +16,27 @@ export const metadata: Metadata = {
   authors: [{ name: "Bali Visas Agency by Indonesian Visas ®" }],
   metadataBase: new URL("https://balivisas.agency"),
   alternates: {
-    canonical: "https://balivisas.agency",
+    canonical: "/",
+  },
+  other: {
+    "geo.region": "ID-BA",
+    "geo.placename": "Kuta, Bali",
+    "geo.position": "-8.7233;115.1723",
+    "ICBM": "-8.7233, 115.1723",
   },
   openGraph: {
-    title: "Bali Visas Agency - Official VOA Bali & Indonesian Visas services",
+    title: "Bali Visas Agency - Official VOA Bali & Indonesian Visas",
     description: "Operated by PT Indonesian Visas Agency. The trusted source for Visa On Arrival (voabali.com) and all Indonesian Visa services.",
     url: "https://balivisas.agency",
     siteName: "Bali Visas Agency",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Bali Visas Agency - Professional Visa Services",
+      },
+    ],
     type: "website",
     locale: "en_US",
   },
@@ -30,6 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Bali Visas Agency - Official VOA Bali Support",
     description: "Fast, reliable VOA and Visa services operated by PT Indonesian Visas Agency.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -46,8 +61,13 @@ export const metadata: Metadata = {
     google: "your-google-verification-code",
   },
   icons: {
-    icon: "/logo.webp",
-    apple: "/logo.webp",
+    icon: [
+      { url: "/logo.webp", type: "image/webp" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [
+      { url: "/logo.webp", type: "image/webp" },
+    ],
   },
 };
 
