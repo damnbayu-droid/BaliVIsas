@@ -4,7 +4,7 @@ import { MapPin, GraduationCap, ShieldCheck, BookOpen, ArrowRight } from 'lucide
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Site Map - Bali Visas Agency Resources",
+  title: "Site Map - Bali Visa Agency Resources",
   description: "Complete list of all regional visa pages, educational clusters, immigration guides, and visa glossary for Indonesia.",
   alternates: { canonical: "/site-map" }
 };

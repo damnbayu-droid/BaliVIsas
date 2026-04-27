@@ -22,11 +22,26 @@ import {
   Facebook,
   Linkedin,
   Youtube,
+  X,
+  ShieldCheck,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [showLegality, setShowLegality] = useState(false);
+  const [showBadgeHint, setShowBadgeHint] = useState(false);
+  const [selectedInfo, setSelectedInfo] = useState<{ title: string, content: string } | null>(null);
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowBadgeHint(true);
+      // Auto-hide after 4 seconds
+      setTimeout(() => setShowBadgeHint(false), 4000);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -159,7 +174,7 @@ export default function Home() {
       icon: <Clock className="w-20 h-20" />,
     },
     {
-      title: "98% Success Rate",
+      title: "99% Success Rate",
       description: "Proven track record with 15,000+ visas processed successfully worldwide",
       icon: <CheckCircle2 className="w-20 h-20" />,
     },
@@ -180,29 +195,141 @@ export default function Home() {
     { name: "Facebook", url: "https://facebook.com/BaliHelp", icon: <Facebook className="w-6 h-6" />, color: "bg-blue-600" },
     { name: "LinkedIn", url: "https://www.linkedin.com/in/bayu-damopolii-887ab883/", icon: <Linkedin className="w-6 h-6" />, color: "bg-blue-700" },
     { name: "YouTube", url: "https://youtube.com/@balihelp", icon: <Youtube className="w-6 h-6" />, color: "bg-red-600" },
-    { name: "WhatsApp", url: "https://wa.me/61423854701", icon: <MessageCircle className="w-6 h-6" />, color: "bg-green-500" },
+    { name: "WhatsApp", url: "https://wa.me/6285727041992", icon: <MessageCircle className="w-6 h-6" />, color: "bg-green-500" },
   ];
 
 
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Bali Visas Agency",
-    "url": "https://balivisas.agency",
-    "logo": "https://balivisas.agency/logo.webp",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+61 423 854 701",
-      "contactType": "customer service",
-      "areaServed": "ID",
-      "availableLanguage": ["en", "id"]
+    "@type": "ProfessionalService",
+    "@id": "https://www.balivisa.agency/#division",
+    "name": "Bali Visa Agency",
+    "url": "https://www.balivisa.agency",
+    "logo": "https://www.balivisa.agency/logo.webp",
+    "image": "https://www.balivisa.agency/og-image.png",
+    "description": "Official Bali Division of PT Indonesian Visas Agency. Specialized in Bali VOA, extensions, and long-term visas for digital nomads and investors.",
+    "telephone": "+62 857 2704 1992",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Tibung Sari No.11C, Padangsambian Kaja",
+      "addressLocality": "Denpasar Barat",
+      "addressRegion": "Bali",
+      "postalCode": "80117",
+      "addressCountry": "ID"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -8.6657,
+      "longitude": 115.1764
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "parentOrganization": {
+      "@type": "Organization",
+      "@id": "https://indonesianvisas.com/#organization",
+      "name": "PT Indonesian Visas Agency",
+      "legalName": "PT Indonesian Visas Agency",
+      "url": "https://indonesianvisas.com",
+      "identifier": [
+        {
+          "@type": "PropertyValue",
+          "name": "NIB",
+          "value": "0402260034806"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "AHU",
+          "value": "AHU-00065.AH.02.01.TAHUN 2020"
+        }
+      ],
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "PT Bali Enterprises Group",
+        "url": "https://bali.enterprises"
+      }
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Bayu Damopolii-Manoppo",
+      "jobTitle": "Strategic Director",
+      "sameAs": [
+        "https://www.linkedin.com/in/balihelp/",
+        "https://www.linkedin.com/in/bayu-damopolii-887ab883/"
+      ]
     },
     "sameAs": [
       "https://instagram.com/balihelp.id",
       "https://facebook.com/BaliHelp",
       "https://www.linkedin.com/in/bayu-damopolii-887ab883/",
       "https://youtube.com/@balihelp"
+    ],
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Bali"
+      },
+      {
+        "@type": "Country",
+        "name": "Indonesia"
+      }
+    ],
+    "knowsAbout": ["Indonesian Visas", "Bali Immigration", "VOA Bali", "KITAS", "E-Visa Indonesia"],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Bali Visa Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "B1 VOA / Extension",
+            "description": "30-day visa on arrival with extension options."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "E33G Digital Nomad Visa",
+            "description": "5-year digital nomad visa for remote workers."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "E28A Investment KITAS",
+            "description": "Investment-based residence permit for long-term stay."
+          }
+        }
+      ]
+    }
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.balivisa.agency"
+      }
     ]
   };
 
@@ -212,17 +339,21 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       {/* Toast */}
 
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300 ${scrolled ? 'bg-white/98 shadow-lg' : 'bg-white'
+      <nav className={`fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-100' : 'bg-transparent'
         }`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <a href="https://voabali.com" className="text-3xl md:text-4xl font-black tracking-tight text-slate-800 hover:text-slate-700 transition-colors">
-            Bali Visas
+          <a href="https://voabali.com" className={`text-3xl md:text-4xl font-black tracking-tight transition-colors ${scrolled ? 'text-slate-800 hover:text-slate-700' : 'text-slate-800'}`}>
+            Bali Visa
           </a>
           <a
-            href="https://wa.me/61423854701"
+            href="https://wa.me/6285727041992"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-slate-800 text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold text-sm md:text-base hover:bg-amber-400 hover:text-slate-800 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg inline-flex items-center gap-2"
@@ -234,32 +365,93 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-purple-900/20 to-purple-900/5">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/Bali-Help.webp"
+            alt="Bali Visa Hero"
+            className="w-full h-full object-cover opacity-10"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-purple-900/5" />
+        </div>
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-16">
+            <div className="relative inline-block mb-6">
+              <button
+                onClick={() => {
+                  setShowLegality(true);
+                  setShowBadgeHint(false);
+                }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-400 text-slate-900 text-xs font-black hover:scale-105 transition-all shadow-lg shadow-amber-400/20 group cursor-pointer"
+              >
+                <ShieldCheck className="w-4 h-4 text-slate-900 group-hover:scale-110 transition-transform" />
+                REGISTERED COMPANY
+              </button>
+
+              <AnimatePresence>
+                {showBadgeHint && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-20 w-48 p-3 bg-slate-800 text-white text-[10px] rounded-2xl shadow-xl font-bold leading-tight"
+                  >
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-800 rotate-45" />
+                    Click for Check Legality
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 leading-tight text-slate-800">
-              Bali Visas
+              Bali Visa <span className="text-purple-900 block md:inline">Agency</span>
             </h1>
             <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-8 md:mb-10 leading-relaxed">
-              Bali Visas - Gateway to Indonesian Visas
+              Bali Visa - Gateway to Indonesian Visas
             </p>
             <p className="text-base md:text-xl lg:text-2xl mb-8 md:mb-10 leading-relaxed text-slate-600">
-              Fast, reliable, and professional visa services for your Bali adventure. We serve 97 countries with expert support and dedicated customer service available 24/7.
+              Fast, reliable sponsor, and professional visa services for your Bali adventure. We serve 97 countries with expert support and dedicated customer service available 24/7.
             </p>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-10 md:mb-12">
-              <div className="p-5 md:p-6 rounded-2xl bg-white border-2 border-slate-200">
-                <div className="text-3xl md:text-4xl font-black mb-2 text-purple-900">16+</div>
-                <div className="text-xs md:text-sm font-bold text-slate-600">Years Experience</div>
+            <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-8 mb-10 md:mb-12">
+              <div
+                onClick={() => setSelectedInfo({
+                  title: "16+ Years Experience",
+                  content: "We have over 16 years of specialized experience in Indonesian Visa Services. We are a fully legal and registered Sponsor Company with the Ministry of Law & Human Rights."
+                })}
+                className="group relative p-3 md:p-6 rounded-2xl bg-white border-2 border-slate-200 hover:border-purple-900 transition-all cursor-pointer hover:shadow-lg active:scale-95 flex flex-col justify-center"
+              >
+                <div className="text-lg md:text-4xl font-black mb-1 md:mb-2 text-purple-900">16+</div>
+                <div className="text-[8px] md:text-sm font-bold text-slate-600 uppercase tracking-tighter leading-tight">Years Exp</div>
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ShieldCheck className="w-3 h-3 text-purple-900" />
+                </div>
               </div>
-              <div className="p-5 md:p-6 rounded-2xl bg-white border-2 border-slate-200">
-                <div className="text-3xl md:text-4xl font-black mb-2 text-purple-900">10,000+</div>
-                <div className="text-xs md:text-sm font-bold text-slate-600">Visas Processed</div>
+              <div
+                onClick={() => setSelectedInfo({
+                  title: "10K+ Visas Processed",
+                  content: "We have successfully processed over 10,000 visa applications for travelers from 97+ countries. Our direct-to-source system ensures speed and 100% legal compliance."
+                })}
+                className="group relative p-3 md:p-6 rounded-2xl bg-white border-2 border-slate-200 hover:border-purple-900 transition-all cursor-pointer hover:shadow-lg active:scale-95 flex flex-col justify-center"
+              >
+                <div className="text-lg md:text-4xl font-black mb-1 md:mb-2 text-purple-900">10K+</div>
+                <div className="text-[8px] md:text-sm font-bold text-slate-600 uppercase tracking-tighter leading-tight">Visas</div>
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ShieldCheck className="w-3 h-3 text-purple-900" />
+                </div>
               </div>
-              <div className="p-5 md:p-6 rounded-2xl bg-white border-2 border-slate-200">
-                <div className="text-3xl md:text-4xl font-black mb-2 text-purple-900">99%</div>
-                <div className="text-xs md:text-sm font-bold text-slate-600">Success Rate</div>
+              <div
+                onClick={() => setSelectedInfo({
+                  title: "99% Success Rate",
+                  content: "Our rigorous verification process and expert review team result in a 99% success rate. We ensure your application meets all immigration criteria before submission."
+                })}
+                className="group relative p-3 md:p-6 rounded-2xl bg-white border-2 border-slate-200 hover:border-purple-900 transition-all cursor-pointer hover:shadow-lg active:scale-95 flex flex-col justify-center"
+              >
+                <div className="text-lg md:text-4xl font-black mb-1 md:mb-2 text-purple-900">99%</div>
+                <div className="text-[8px] md:text-sm font-bold text-slate-600 uppercase tracking-tighter leading-tight">Success</div>
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ShieldCheck className="w-3 h-3 text-purple-900" />
+                </div>
               </div>
             </div>
 
@@ -281,13 +473,17 @@ export default function Home() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {[
-                { step: 1, title: "Select Country", desc: "Choose your nationality from 97 supported countries." },
-                { step: 2, title: "Visa & Personal Details", desc: "Select visa type and provide personal information." },
-                { step: 3, title: "Upload Documents", desc: "Upload passport and selfie (optional, can skip)." },
-                { step: 4, title: "Payment & Submit", desc: "Complete payment and submit your application." },
+                { step: 1, title: "Select Country", desc: "Choose your nationality from 97 supported countries.", info: "Identify your nationality to see specific requirements and visa options available for your country. We handle 97+ nationalities directly." },
+                { step: 2, title: "Visa & Details", desc: "Select visa type and provide personal information.", info: "Choose the best visa type (VOA, KITAS, Nomad) for your stay duration. Provide basic personal details for the immigration portal." },
+                { step: 3, title: "Upload Documents", desc: "Upload passport and selfie (optional, can skip).", info: "Securely upload your passport and documents. Our system uses end-to-end encryption to protect your identity and travel documents." },
+                { step: 4, title: "Payment", desc: "Complete payment and submit your application.", info: "Secure by Encrypted Doku Payment & Paypal. Your financial data is protected by industry-standard encryption and processed via official gateways." },
               ].map((item) => (
-                <div key={item.step} className="flex flex-col items-center text-center p-4 md:p-6 rounded-2xl bg-slate-50 border-2 border-transparent hover:border-purple-900 hover:bg-white hover:shadow-md transition-all duration-300">
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-purple-900 to-purple-700 text-white flex items-center justify-center font-black text-xl md:text-2xl mb-4 shadow-lg">
+                <div
+                  key={item.step}
+                  onClick={() => setSelectedInfo({ title: item.title, content: item.info })}
+                  className="group relative flex flex-col items-center text-center p-4 md:p-6 rounded-2xl bg-slate-50 border-2 border-transparent hover:border-purple-900 hover:bg-white hover:shadow-md transition-all duration-300 cursor-pointer active:scale-95"
+                >
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-purple-900 to-purple-700 text-white flex items-center justify-center font-black text-xl md:text-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform">
                     {item.step}
                   </div>
                   <h3 className="text-base md:text-lg font-bold mb-2 text-slate-800">{item.title}</h3>
@@ -376,8 +572,260 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Smart System Sponsor ID Section */}
+      <section className="py-20 px-4 relative overflow-hidden bg-slate-50 border-y border-slate-200">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/Bali-Help.webp"
+            alt="Bali Help Smart ID Background"
+            className="w-full h-full object-cover opacity-5"
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl md:text-6xl font-black mb-6 text-slate-800 leading-tight">
+                SMART SYSTEM <span className="text-purple-900">Sponsor ID</span>
+              </h2>
+              <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed">
+                Experience the future of Indonesian immigration with our patent-pending Smart ID ecosystem. Secure, digital, and instantly verifiable for all travelers.
+              </p>
+
+              <div className="space-y-4 mb-10">
+                {[
+                  { title: "Smart ID", url: "https://indonesianvisas.com/ktp-id-card-smart-id" },
+                  { title: "IDiv Card", url: "https://indonesianvisas.com/id-indonesian-visas" },
+                  { title: "Guide ID", url: "https://indonesianvisas.com/id-guide" }
+                ].map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-200 hover:border-purple-900 hover:shadow-md transition-all group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-purple-900 text-white flex items-center justify-center font-bold">
+                      {i + 1}
+                    </div>
+                    <span className="font-bold text-slate-800 group-hover:text-purple-900 transition-colors">{link.title}</span>
+                    <ArrowRight className="w-4 h-4 ml-auto text-slate-400 group-hover:text-purple-900" />
+                  </a>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="https://indonesianvisas.com/smart-id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-slate-800 text-white px-8 py-4 rounded-full font-bold hover:bg-amber-400 hover:text-slate-800 transition-all shadow-lg inline-flex items-center gap-2"
+                >
+                  Explore Smart ID
+                </a>
+                <a
+                  href="https://indonesianvisas.com/why-travelers-need-a-sponsor-id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white text-slate-800 border-2 border-slate-800 px-8 py-4 rounded-full font-bold hover:bg-slate-50 transition-all inline-flex items-center gap-2"
+                >
+                  Why Sponsor ID?
+                </a>
+              </div>
+            </div>
+
+            <div className="relative group perspective-1000">
+              {/* 3D Flippable Card */}
+              <motion.div
+                onClick={() => setIsFlipped(!isFlipped)}
+                animate={{ rotateY: isFlipped ? 180 : 0 }}
+                transition={{ duration: 0.8, ease: "circOut" }}
+                style={{ transformStyle: "preserve-3d" }}
+                className="relative aspect-[1.58/1] w-full cursor-pointer"
+              >
+                {/* Front Side */}
+                <div
+                  className="absolute inset-0 w-full h-full backface-hidden bg-[#dcf2fe] rounded-3xl shadow-2xl overflow-hidden border border-white/40 p-5 md:p-7 text-slate-800 font-sans tracking-tight"
+                  style={{ backfaceVisibility: "hidden" }}
+                >
+                  {/* KTP Background Patterns & Logo Watermark */}
+                  <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay" />
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.07]">
+                    <img src="/logo.webp" alt="Bali Visa Official Logo Watermark" className="w-1/3 h-auto grayscale" loading="lazy" decoding="async" />
+                  </div>
+
+                  <div className="relative h-full flex flex-col">
+                    {/* Header */}
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-5 bg-red-600 border border-slate-200 relative">
+                          <div className="absolute bottom-0 w-full h-1/2 bg-white" />
+                        </div>
+                        <div className="leading-none">
+                          <div className="text-[10px] md:text-[12px] font-black text-[#1e40af] uppercase">PROVINSI BALI</div>
+                          <div className="text-[8px] md:text-[10px] font-bold text-slate-500 uppercase tracking-wider">SMART SYSTEM IDENTITY</div>
+                        </div>
+                      </div>
+                      <div className="text-[8px] md:text-[12px] font-bold text-slate-400 uppercase">
+                        REG NO: <span className="text-slate-600">NOT_LINKED</span>
+                      </div>
+                    </div>
+
+                    {/* ID Body */}
+                    <div className="flex-1 flex gap-6 md:gap-10">
+                      <div className="flex-1 space-y-2 md:space-y-3">
+                        <div className="flex items-baseline gap-4 mb-4">
+                          <div className="text-xl md:text-2xl font-black text-slate-800 tracking-tight">ID No</div>
+                          <div className="text-xl md:text-2xl font-black text-slate-800 tracking-wider">: 9971-0024-889100</div>
+                        </div>
+
+                        <div className="space-y-1 md:space-y-2 mt-4">
+                          {[
+                            { label: "Nama", value: "SARAH J. WILLIAMS" },
+                            { label: "No Passport", value: "A1234567" },
+                            { label: "Tempat/Tgl Lahir", value: "LONDON, 01-01-1990" },
+                            { label: "Jenis Kelamin", value: "PEREMPUAN" },
+                            { label: "Alamat", value: "Jl. Sunset Road No.7, Kuta, Bali Indonesia." },
+                            { label: "Pekerjaan", value: "INVESTOR" },
+                            { label: "Kewarganegaraan", value: "UNITED KINGDOM" },
+                            { label: "Jenis Visa", value: "E28A INVESTOR KITAS" }
+                          ].map((item, i) => (
+                            <div key={i} className="flex gap-2 text-[8px] md:text-[11px] leading-tight">
+                              <div className="w-20 md:w-28 font-bold text-slate-600 uppercase shrink-0">{item.label}</div>
+                              <div className="font-bold shrink-0">:</div>
+                              <div className="font-black uppercase text-slate-700">{item.value}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="flex gap-10 pt-2">
+                          <div>
+                            <div className="text-[7px] md:text-[9px] font-bold text-slate-400 uppercase">ISSUED</div>
+                            <div className="text-[10px] md:text-[13px] font-black text-slate-800">2025-12-01</div>
+                          </div>
+                          <div>
+                            <div className="text-[7px] md:text-[9px] font-bold text-slate-400 uppercase">EXPIRES</div>
+                            <div className="text-[10px] md:text-[13px] font-black text-amber-600 flex items-center gap-1 uppercase">
+                              LIFETIME ACCESS <Globe className="w-3 h-3" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Photo Area */}
+                      <div className="w-22 md:w-32 pt-12 flex flex-col items-center gap-2">
+                        <div className="w-full aspect-[3/4] bg-white rounded-xl border border-blue-200 shadow-inner flex items-center justify-center relative overflow-hidden">
+                          <User className="w-14 md:w-20 text-blue-100" />
+                          <div className="absolute bottom-0 w-full h-4 bg-blue-500/10 flex items-center justify-center">
+                            <div className="w-1/2 h-[1px] bg-blue-200" />
+                          </div>
+                        </div>
+                        <div className="text-[7px] md:text-[9px] font-bold text-slate-400 text-center uppercase leading-tight">
+                          Smart ID by <br /> indonesianvisas.com
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Back Side */}
+                <div
+                  className="absolute inset-0 w-full h-full backface-hidden bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 p-8 flex flex-col items-center justify-between"
+                  style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+                >
+                  <div className="w-full flex justify-center items-center gap-3 pb-6 border-b border-slate-50">
+                    <div className="w-10 h-10 bg-[#1e40af] rounded-xl flex items-center justify-center p-2 shadow-lg shadow-blue-900/20">
+                      <div className="grid grid-cols-2 gap-1">
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                      </div>
+                    </div>
+                    <div className="text-base font-black text-[#1e40af] tracking-wider uppercase">SMART VERIFICATION CODE</div>
+                  </div>
+
+                  <div className="flex-1 w-full flex items-center justify-center gap-8 md:gap-12 py-4 md:py-6">
+                    <div className="flex flex-col items-center gap-6">
+                      {/* Contactless with Signal Vibration */}
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="flex items-center justify-center h-8 w-14 relative">
+                          {[0, 1, 2, 3].map((i) => (
+                            <motion.div
+                              key={i}
+                              animate={{
+                                opacity: [0.2, 1, 0.2],
+                                scale: [1, 1.05, 1],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                delay: i * 0.3,
+                                ease: "easeInOut"
+                              }}
+                              className="absolute border-r-[3px] border-[#1e40af] rounded-full"
+                              style={{
+                                width: `${16 + i * 10}px`,
+                                height: `${16 + i * 10}px`,
+                                left: `${-8 + i * 2}px`
+                              }}
+                            />
+                          ))}
+                        </div>
+                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">CONTACTLESS</div>
+                      </div>
+
+                      {/* Barcode */}
+                      <div className="flex flex-col items-center gap-1">
+                        <div className="flex gap-1 h-10">
+                          {[1, 3, 1, 2, 1, 3, 1, 2, 1].map((w, i) => (
+                            <div key={i} className="bg-slate-900" style={{ width: `${w * 1.5}px` }} />
+                          ))}
+                        </div>
+                        <div className="text-[10px] font-black text-slate-900 tracking-widest uppercase">A1234567</div>
+                      </div>
+                    </div>
+
+                    {/* QR Code */}
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-32 h-32 md:w-36 md:h-36 bg-white p-4 rounded-[32px] shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-slate-50 flex items-center justify-center">
+                        <img
+                          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NOT_LINKED&color=0f172a"
+                          alt="Bali Visa Smart ID Verification QR Code"
+                          className="w-full h-full"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                      <div className="text-[11px] md:text-[13px] font-black text-[#1e40af] tracking-[0.4em] uppercase">NOT_LINKED</div>
+                    </div>
+                  </div>
+
+                  <div className="w-full text-center pt-3 border-t border-slate-100">
+                    <div className="text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] leading-relaxed">
+                      OFFICIAL SPONSOR ID • SECURED VIA IDIV SYSTEM • INDONESIANVISAS.COM
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Floating Badge */}
+              <div className="absolute -bottom-8 -right-6 bg-amber-400 text-slate-900 p-6 rounded-2xl shadow-xl font-black text-center rotate-3 hidden md:block z-20 pointer-events-none">
+                <div className="text-sm uppercase tracking-wider mb-1">100% Verified</div>
+                <div className="text-2xl italic">Expat Assistance</div>
+              </div>
+
+              {/* Flip Hint */}
+              <div className="mt-4 text-center">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest animate-pulse">Click Card to Flip</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* VOA Bali Section */}
-      <section className="py-16 md:py-20 px-4 bg-slate-50 border-y border-slate-200">
+      <section className="py-16 md:py-20 px-4 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -386,7 +834,7 @@ export default function Home() {
               </h2>
               <div className="space-y-4 text-slate-600 text-base md:text-lg leading-relaxed">
                 <p>
-                  <strong>Bali Visas Agency</strong> is proud to operate the premium services for <strong>voabali.com</strong>, serving as the trusted gateway for international travelers entering Bali.
+                  <strong>Bali Visa Agency</strong> is proud to operate the premium services for <strong>voabali.com</strong>, serving as the trusted gateway for international travelers entering Bali.
                 </p>
                 <p>
                   As the premier provider for <strong>Visa On Arrival (B1/B213)</strong> and visa extensions, we ensure your entry into Indonesia is smooth and compliant with the latest immigration regulations.
@@ -402,7 +850,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" />
-                    <span>Dedicated <strong>Bali Visas Agency</strong> support team</span>
+                    <span>Dedicated <strong>Bali Visa Agency</strong> support team</span>
                   </li>
                 </ul>
                 <div className="pt-6">
@@ -421,10 +869,96 @@ export default function Home() {
               <div className="bg-gradient-to-br from-purple-900 to-slate-900 p-8 rounded-2xl text-center text-white">
                 <Globe className="w-20 h-20 mx-auto mb-6 text-amber-400" />
                 <h3 className="text-2xl font-bold mb-2">Official VOA Support</h3>
-                <p className="text-slate-200 mb-6">Trusted by 10,000+ Travelers</p>
+                <p className="text-slate-200 mb-6">Trusted by 10K+ Travelers</p>
                 <div className="text-4xl font-black text-amber-400">voabali.com</div>
-                <div className="text-sm text-slate-300 mt-2">Powered by Bali Visas Agency</div>
+                <div className="text-sm text-slate-300 mt-2">Powered by Bali Visa Agency</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Company Formation Section */}
+      <section className="py-16 md:py-24 px-4 bg-slate-900 text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-purple-900/10 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-sm font-bold mb-6">
+                <Briefcase className="w-4 h-4" /> Business Solutions
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-8 leading-tight">
+                PT PMA <span className="text-amber-400">Registration</span> & Company Formation
+              </h2>
+              <div className="space-y-6 text-slate-300 text-lg leading-relaxed mb-10">
+                <p>
+                  Establish your presence in the Indonesian market with a <strong>PT PMA (Foreign-Owned Company)</strong>. Our end-to-end framework covers everything from KBLI selection to bank account opening.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                  {[
+                    "100% Foreign Ownership",
+                    "Investor KITAS Support",
+                    "NIB & OSS Registration",
+                    "Tax ID (NPWP) Setup",
+                    "Bank Account Opening",
+                    "Virtual Office Options"
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-amber-400" />
+                      <span className="text-sm md:text-base text-slate-300">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-4 items-center">
+                <a
+                  href="https://indonesianvisas.com/company-formation"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-amber-400 text-slate-900 px-8 py-4 rounded-full font-bold hover:bg-white transition-all inline-flex items-center gap-2 shadow-lg shadow-amber-400/20"
+                >
+                  See Prices <ArrowRight className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://balihelp.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 text-white border border-white/20 px-8 py-4 rounded-full font-bold hover:bg-white/20 transition-all inline-flex items-center gap-2"
+                >
+                  Check Detail
+                </a>
+                <a
+                  href="https://bali.enterprises/starting-business-bali-guide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto text-center text-slate-400 hover:text-white transition-colors text-sm font-bold underline underline-offset-8"
+                >
+                  PT PMA Guide
+                </a>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+              {[
+                { plan: "Basic Planning", price: "Rp 25.000.000", desc: "Core business setup including NIB & AHU." },
+                { plan: "Strategic Planning", price: "Rp 45.000.000", desc: "Adds Virtual Office & Bank Account support." },
+                { plan: "End-to-End Setup", price: "Rp 84.800.000", desc: "Adds KITAS Investor & Foreign ID Setup." }
+              ].map((tier, i) => (
+                <div key={i} className="bg-white/5 border border-white/10 p-6 md:p-8 rounded-3xl hover:bg-white/10 transition-all group">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-1 group-hover:text-amber-400 transition-colors">{tier.plan}</h3>
+                      <p className="text-sm text-slate-400 max-w-[200px]">{tier.desc}</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-2xl font-black text-amber-400">{tier.price}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-slate-500">Starting From</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -434,7 +968,7 @@ export default function Home() {
       <section className="py-16 md:py-20 px-4 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4 md:mb-6 text-slate-800">Why Choose Bali Visas?</h2>
+            <h2 className="text-4xl md:text-5xl font-black mb-4 md:mb-6 text-slate-800">Why Choose Bali Visa?</h2>
             <p className="text-lg md:text-xl text-slate-600">Your trusted partner for seamless Indonesian visa processing</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
@@ -472,7 +1006,7 @@ export default function Home() {
               <div className="w-20 md:w-24 h-20 md:h-24 mx-auto mb-4 md:mb-6 text-slate-800">
                 <User className="w-full h-full" />
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-slate-800">Bali Visas Agency</h3>
+              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-slate-800">Bali Visa Agency</h3>
               <p className="text-base md:text-lg mb-6 text-slate-600">
                 Learn more about our company, experienced team, and our mission to provide excellent visa services.
               </p>
@@ -499,12 +1033,12 @@ export default function Home() {
               <MessageCircle className="w-16 md:w-20 h-16 md:h-20 mx-auto mb-4 text-slate-800" />
               <h3 className="text-lg md:text-xl font-bold mb-3 text-slate-800">WhatsApp</h3>
               <a
-                href="https://wa.me/61423854701"
+                href="https://wa.me/6285727041992"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-base md:text-lg font-semibold text-slate-800 hover:text-amber-500 transition-colors"
               >
-                +61 423 854 701
+                +62 85727041992
               </a>
             </div>
             <div className="bg-white p-6 md:p-8 rounded-2xl shadow-md border border-slate-100 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
@@ -538,7 +1072,8 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="text-sm md:text-base text-slate-800 hover:text-amber-500 transition-colors"
               >
-                Jl. Tibung Sari No.11C, Bali, Indonesia
+                Jl. Tibung Sari No.11C, Padangsambian Kaja,<br />
+                Denpasar Barat, Bali 80117, Indonesia
               </a>
             </div>
           </div>
@@ -576,43 +1111,90 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 px-4 bg-gradient-to-br from-slate-800 to-slate-700 mt-auto">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-6">
-            <h3 className="text-white text-2xl md:text-3xl font-bold mb-3">Bali Visas</h3>
-            <p className="text-slate-300 text-sm md:text-base max-w-2xl mx-auto mb-2 leading-relaxed">
-              Professional Indonesian visa services with 16+ years experience. Fast, reliable, and trusted by thousands worldwide.
-            </p>
-            <a href="/site-map" className="text-slate-400 hover:text-white transition-colors text-xs md:text-sm font-medium underline underline-offset-4 mb-4 inline-block">
-              (sitemap)
-            </a>
-          </div>
-          <div className="border-t border-slate-600 pt-6 pb-4 text-center">
-            <div className="text-slate-300 text-sm md:text-base mb-4 font-semibold leading-relaxed">
-              <p>© 2026 Bali Visas Agency™</p>
-              <p>Operated by PT Indonesian Visas Agency (Indonesia).</p>
-              <p>All Rights Reserved.</p>
-            </div>
-            <div className="mb-4">
-              <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 text-xs md:text-sm">
-                <a href="https://bali.enterprises" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">bali.enterprises</a>
-                <span className="text-slate-500">•</span>
-                <a href="https://indonesianvisas.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">indonesianvisas.com</a>
-                <span className="text-slate-500">•</span>
-                <a href="https://balihelp.id" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">balihelp.id</a>
-                <span className="text-slate-500">•</span>
-                <a href="https://visas.agency" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">visas.agency</a>
-                <span className="text-slate-500">•</span>
+      <footer className="py-20 px-4 bg-slate-900 text-slate-300">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 text-left">
+            {/* Column 1: Brand */}
+            <div className="space-y-6">
+              <h3 className="text-white text-3xl font-black tracking-tighter">Bali Visa</h3>
+              <p className="text-sm leading-relaxed opacity-80">
+                Official Bali Division of PT Indonesian Visas Agency. Providing professional, direct-to-source visa services with 16+ years of expertise in Indonesian immigration.
+              </p>
+              <div className="pt-0.5 space-y-2 text-xs opacity-60">
+                <p>NIB: 0402260034806</p>
+                <p>AHU: AHU-00065.AH.02.01.TAHUN 2020</p>
+                <p>NPWP: 10.000.000.0-811.7681</p>
               </div>
             </div>
-            <div className="flex flex-wrap justify-center gap-2 md:gap-3 text-xs md:text-sm">
-              <a href="https://indonesianvisas.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">Privacy & Policy</a>
-              <span className="text-slate-600">•</span>
-              <a href="https://indonesianvisas.com/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">Term & Conditions</a>
-              <span className="text-slate-600">•</span>
-              <a href="https://indonesianvisas.com/refund" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">Refund Policy</a>
-              <span className="text-slate-600">•</span>
-              <a href="https://indonesianvisas.com/affiliate" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors">Affiliate Program</a>
+
+            {/* Column 2: Services */}
+            <div>
+              <h4 className="text-white font-bold mb-6 text-lg">Visa Services</h4>
+              <ul className="space-y-4 text-sm">
+                <li><a href="https://indonesianvisas.com/services/B1" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">B1 VOA / Extension</a></li>
+                <li><a href="https://indonesianvisas.com/services/C1" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">C1 Tourist Visa</a></li>
+                <li><a href="https://indonesianvisas.com/services/E33G" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Digital Nomad Visa</a></li>
+                <li><a href="https://indonesianvisas.com/services/E28A" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Investment KITAS</a></li>
+                <li><a href="https://indonesianvisas.com/services" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-semibold hover:underline">All Visa Types</a></li>
+              </ul>
+            </div>
+
+            {/* Column 3: Resources */}
+            <div>
+              <h4 className="text-white font-bold mb-6 text-lg">Resources</h4>
+              <ul className="space-y-4 text-sm">
+                <li><a href="/about" className="hover:text-amber-400 transition-colors">About Us</a></li>
+                <li><a href="/faq" className="hover:text-amber-400 transition-colors">Frequently Asked Questions</a></li>
+                <li><a href="/site-map" className="hover:text-amber-400 transition-colors">Sitemap</a></li>
+                <li><a href="https://indonesianvisas.com/affiliate" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Affiliate Program</a></li>
+                <li><a href="https://indonesianvisas.com/smart-id" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">Smart ID</a></li>
+              </ul>
+            </div>
+
+            {/* Column 4: Contact */}
+            <div>
+              <h4 className="text-white font-bold mb-6 text-lg">Connect</h4>
+              <div className="flex gap-4 mb-8">
+                {socialLinks.map((social, i) => (
+                  <a
+                    key={i}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-purple-900 transition-all"
+                    aria-label={social.name}
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
+              <p className="text-sm font-semibold text-white mb-2">Bali Office</p>
+              <p className="text-xs opacity-70 leading-relaxed">
+                Jl. Tibung Sari No.11C, Padangsambian Kaja, Denpasar Barat, Bali 80117
+              </p>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-800 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-left">
+              <div className="text-xs opacity-50 space-y-1">
+                <p>© 2026 Bali Visa Agency. All Rights Reserved.</p>
+                <p>Licensed Travel & Visa Agency (KBLI: 79111)</p>
+              </div>
+
+              <div className="flex flex-wrap gap-6 text-xs font-medium">
+                <a href="https://indonesianvisas.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="https://indonesianvisas.com/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Terms & Conditions</a>
+                <a href="https://indonesianvisas.com/refund" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Refund Policy</a>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+              <a href="https://bali.enterprises" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">bali.enterprises</a>
+              <a href="https://indonesianvisas.com" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">indonesianvisas.com</a>
+              <a href="https://balihelp.id" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">balihelp.id</a>
+              <a href="https://bali.technology" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">bali.technology</a>
+              <a href="https://indodesign.website" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">indodesign.website</a>
             </div>
           </div>
         </div>
@@ -621,7 +1203,7 @@ export default function Home() {
 
       {/* Floating WhatsApp */}
       <a
-        href="https://wa.me/61423854701"
+        href="https://wa.me/6285727041992"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 hover:scale-110 transition-all duration-300 group"
@@ -632,6 +1214,175 @@ export default function Home() {
           Need help? Chat with us!
         </span>
       </a>
+      {/* Legality Modal */}
+      <AnimatePresence>
+        {showLegality && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowLegality(false)}
+              className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className="relative bg-white rounded-[32px] p-6 md:p-8 max-w-lg w-full shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar"
+            >
+              <div className="absolute top-0 right-0 p-6">
+                <button
+                  onClick={() => setShowLegality(false)}
+                  className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-slate-600"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-14 h-14 rounded-2xl bg-amber-400 flex items-center justify-center shadow-inner">
+                  <ShieldCheck className="w-8 h-8 text-slate-900" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-slate-800 tracking-tight">Check Legality</h3>
+                  <p className="text-sm text-slate-500 font-bold uppercase tracking-wider">Official Verification</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {/* AHU Search */}
+                <div className="p-5 rounded-3xl bg-slate-50 border border-slate-100">
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Company Name</p>
+                    <button
+                      onClick={() => navigator.clipboard.writeText("Indonesian Visas Agency")}
+                      className="text-[10px] font-black bg-white px-3 py-1 rounded-full border border-slate-200 hover:border-amber-400 transition-all shadow-sm active:scale-95"
+                    >
+                      COPY
+                    </button>
+                  </div>
+                  <div className="font-black text-slate-800 text-lg">Indonesian Visas Agency</div>
+                  <a
+                    href="https://www.ahu.go.id/pencarian/profil-pt"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 flex items-center justify-between p-4 bg-slate-800 text-white rounded-2xl font-bold hover:bg-amber-400 hover:text-slate-800 transition-all group"
+                  >
+                    <span>Cek Profil PT (AHU)</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
+
+                {/* NIB Search */}
+                <div className="p-5 rounded-3xl bg-slate-50 border border-slate-100">
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Registration No (NIB)</p>
+                    <button
+                      onClick={() => navigator.clipboard.writeText("0402260034806")}
+                      className="text-[10px] font-black bg-white px-3 py-1 rounded-full border border-slate-200 hover:border-amber-400 transition-all shadow-sm active:scale-95"
+                    >
+                      COPY
+                    </button>
+                  </div>
+                  <div className="font-black text-slate-800 text-lg">0402260034806</div>
+                  <a
+                    href="https://www.badanperizinan.co.id/nib.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 flex items-center justify-between p-4 bg-slate-800 text-white rounded-2xl font-bold hover:bg-amber-400 hover:text-slate-800 transition-all group"
+                  >
+                    <span>Cek NIB (Government)</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
+
+                {/* Company House */}
+                <a
+                  href="https://companieshouse.id/indonesian-visas-agency?ref=search"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-5 bg-white border-2 border-slate-800 text-slate-800 rounded-3xl font-bold hover:bg-slate-50 transition-all group"
+                >
+                  <span>Public Record Company House</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+
+                {/* Company Profile */}
+                <a
+                  href="https://indonesianvisas.com/company-profile"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between p-5 bg-white border-2 border-slate-800 text-slate-800 rounded-3xl font-bold hover:bg-slate-50 transition-all group"
+                >
+                  <span>Check Company Profile</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+
+              <div className="mt-8 flex items-start gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                <Globe className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <p className="text-[11px] text-amber-900/80 font-medium leading-relaxed">
+                  Click <strong>COPY</strong> then open the portal. Search for our credentials to verify our 100% legal compliance with the Indonesian Ministry of Law & Human Rights.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      {/* Information Modal */}
+      <AnimatePresence>
+        {selectedInfo && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedInfo(null)}
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className="relative bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100"
+            >
+              <div className="absolute top-0 right-0 p-4">
+                <button
+                  onClick={() => setSelectedInfo(null)}
+                  className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-purple-900/10 flex items-center justify-center">
+                  <ShieldCheck className="w-6 h-6 text-purple-900" />
+                </div>
+                <h3 className="text-xl font-black text-slate-800 leading-tight">
+                  {selectedInfo.title}
+                </h3>
+              </div>
+
+              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 mb-6">
+                <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                  {selectedInfo.content}
+                </p>
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setSelectedInfo(null)}
+                  className="bg-slate-800 text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-amber-400 hover:text-slate-800 transition-all"
+                >
+                  Got it
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div >
   );
 }

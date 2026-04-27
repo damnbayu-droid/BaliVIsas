@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://balivisas.agency/sitemap.xml
+Sitemap: https://www.balivisa.agency/sitemap.xml

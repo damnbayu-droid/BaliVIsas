@@ -23,7 +23,7 @@ export default function Page() {
         { title: "Blacklisting (DPI)", content: "Blacklisting prevents you from re-entering Indonesia for a minimum of 6 months to several years, depending on the severity." },
         { title: "Reporting Voluntarily", content: "If you realize you've overstayed, it's better to report to an immigration office voluntarily rather than getting caught at the airport." },
         { title: "Extenuating Circumstances", content: "Medical emergencies (with hospital proof) may sometimes waive the daily fine, but this requires immediate reporting." },
-        { title: "Visa Agents & Overstay", content: "Professional agents (like Bali Visas) can help facilitate the reporting and payment process to minimize stress." },
+        { title: "Visa Agents & Overstay", content: "Professional agents (like Bali Visa) can help facilitate the reporting and payment process to minimize stress." },
         { title: "Legal Representation", content: "In serious overstay cases, having legal counsel is recommended to navigate the administrative court process." }
       ]}
     />

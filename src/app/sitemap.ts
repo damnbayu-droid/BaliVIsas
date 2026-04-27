@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://balivisas.agency';
+  const baseUrl = 'https://www.balivisa.agency';
 
   const routes = [
     '',

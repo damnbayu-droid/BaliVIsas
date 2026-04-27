@@ -10,11 +10,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Bali Visas Agency - Official VOA Bali & Indonesian Visas",
-  description: "Bali Visas Agency - The official support for voabali.com and your trusted Indonesian Visas partner. Fast VOA (Visa On Arrival), extensions, and business visas for 97 countries.",
-  keywords: ["Bali Visas Agency", "VOA Bali", "voabali.com", "Visa on Arrival Bali", "Indonesian Visas", "Bali Visa", "Indonesia Visa", "Bali Entry Requirements", "B213 Visa"],
-  authors: [{ name: "Bali Visas Agency by Indonesian Visas ®" }],
-  metadataBase: new URL("https://balivisas.agency"),
+  title: "Bali Visa Agency - Official E-VOA & Indonesian Visa Services",
+  description: "Official Bali Division of PT Indonesian Visas Agency. Trusted support for E-VOA, extensions, Investor KITAS, and company formation. NIB: 0402260034806. Get your Bali Visa fast and 100% legal.",
+  keywords: [
+    "Bali Visa Agency", 
+    "E-VOA Bali", 
+    "Visa on Arrival Indonesia", 
+    "Investor KITAS Bali", 
+    "Bali Visa Extension", 
+    "PT Indonesian Visas Agency", 
+    "Indonesian Visa Agent", 
+    "NIB 0402260034806", 
+    "Bali Company Formation", 
+    "PMA Registration Bali"
+  ],
+  authors: [{ name: "Bali Visa Agency by Indonesian Visas ®" }],
+  metadataBase: new URL("https://www.balivisa.agency"),
   alternates: {
     canonical: "/",
   },
@@ -23,18 +34,19 @@ export const metadata: Metadata = {
     "geo.placename": "Kuta, Bali",
     "geo.position": "-8.7233;115.1723",
     "ICBM": "-8.7233, 115.1723",
+    "theme-color": "#1e293b",
   },
   openGraph: {
-    title: "Bali Visas Agency - Official VOA Bali & Indonesian Visas",
-    description: "Operated by PT Indonesian Visas Agency. The trusted source for Visa On Arrival (voabali.com) and all Indonesian Visa services.",
-    url: "https://balivisas.agency",
-    siteName: "Bali Visas Agency",
+    title: "Bali Visa Agency - #1 Trusted Visa Partner in Bali",
+    description: "Official Bali Division of PT Indonesian Visas Agency. Professional support for E-VOA, KITAS, and Stay Permits. 100% Legal & Verified.",
+    url: "https://www.balivisa.agency",
+    siteName: "Bali Visa Agency",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Bali Visas Agency - Professional Visa Services",
+        alt: "Bali Visa Agency - Professional Visa Services",
       },
     ],
     type: "website",
@@ -42,8 +54,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bali Visas Agency - Official VOA Bali Support",
-    description: "Fast, reliable VOA and Visa services operated by PT Indonesian Visas Agency.",
+    site: "@balivisa",
+    creator: "@balivisa",
+    title: "Bali Visa Agency - Official VOA Bali Support",
+    description: "Fast, reliable VOA and Visa services operated by PT Indonesian Visas Agency. 100% Verified.",
     images: ["/og-image.png"],
   },
   robots: {
