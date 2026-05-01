@@ -26,13 +26,388 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const SmartIDCard = dynamic(() => import('@/components/SmartIDCard'), {
+  ssr: false,
+  loading: () => <div className="aspect-[1.58/1] w-full bg-slate-100 animate-pulse rounded-3xl" />
+});
+
+const countries = [
+  { name: "South Africa", code: "ZA", flag: "🇿🇦" },
+  { name: "United States", code: "US", flag: "🇺🇸" },
+  { name: "Australia", code: "AU", flag: "🇦🇺" },
+  { name: "United Kingdom", code: "GB", flag: "🇬🇧" },
+  { name: "Germany", code: "DE", flag: "🇩🇪" },
+  { name: "France", code: "FR", flag: "🇫🇷" },
+  { name: "Japan", code: "JP", flag: "🇯🇵" },
+  { name: "South Korea", code: "KR", flag: "🇰🇷" },
+  { name: "Singapore", code: "SG", flag: "🇸🇬" },
+  { name: "India", code: "IN", flag: "🇮🇳" },
+  { name: "China", code: "CN", flag: "🇨🇳" },
+  { name: "Canada", code: "CA", flag: "🇨🇦" },
+  { name: "Brazil", code: "BR", flag: "🇧🇷" },
+  { name: "Netherlands", code: "NL", flag: "🇳🇱" },
+  { name: "Italy", code: "IT", flag: "🇮🇹" },
+  { name: "Spain", code: "ES", flag: "🇪🇸" },
+  { name: "Sweden", code: "SE", flag: "🇸🇪" },
+  { name: "Norway", code: "NO", flag: "🇳🇴" },
+  { name: "Denmark", code: "DK", flag: "🇩🇰" },
+  { name: "Finland", code: "FI", flag: "🇫🇮" },
+  { name: "Switzerland", code: "CH", flag: "🇨🇭" },
+  { name: "Belgium", code: "BE", flag: "🇧🇪" },
+  { name: "Austria", code: "AT", flag: "🇦🇹" },
+  { name: "Portugal", code: "PT", flag: "🇵🇹" },
+  { name: "Greece", code: "GR", flag: "🇬🇷" },
+  { name: "Poland", code: "PL", flag: "🇵🇱" },
+  { name: "Czech Republic", code: "CZ", flag: "🇨🇿" },
+  { name: "Hungary", code: "HU", flag: "🇭🇺" },
+  { name: "Romania", code: "RO", flag: "🇷🇴" },
+  { name: "Russia", code: "RU", flag: "🇷🇺" },
+  { name: "Ukraine", code: "UA", flag: "🇺🇦" },
+  { name: "Turkey", code: "TR", flag: "🇹🇷" },
+  { name: "Israel", code: "IL", flag: "🇮🇱" },
+  { name: "Saudi Arabia", code: "SA", flag: "🇸🇦" },
+  { name: "UAE", code: "AE", flag: "🇦🇪" },
+  { name: "Qatar", code: "QA", flag: "🇶🇦" },
+  { name: "Kuwait", code: "KW", flag: "🇰🇼" },
+  { name: "Bahrain", code: "BH", flag: "🇧🇭" },
+  { name: "Oman", code: "OM", flag: "🇴🇲" },
+  { name: "New Zealand", code: "NZ", flag: "🇳🇿" },
+  { name: "Philippines", code: "PH", flag: "🇵🇭" },
+  { name: "Thailand", code: "TH", flag: "🇹🇭" },
+  { name: "Vietnam", code: "VN", flag: "🇻🇳" },
+  { name: "Malaysia", code: "MY", flag: "🇲🇾" },
+  { name: "Indonesia", code: "ID", flag: "🇮🇩" },
+  { name: "Hong Kong", code: "HK", flag: "🇭🇰" },
+  { name: "Taiwan", code: "TW", flag: "🇹🇼" },
+  { name: "Mexico", code: "MX", flag: "🇲🇽" },
+  { name: "Argentina", code: "AR", flag: "🇦🇷" },
+  { name: "Chile", code: "CL", flag: "🇨🇱" },
+  { name: "Colombia", code: "CO", flag: "🇨🇴" },
+  { name: "Peru", code: "PE", flag: "🇵🇪" },
+  { name: "Egypt", code: "EG", flag: "🇪🇬" },
+  { name: "Morocco", code: "MA", flag: "🇲🇦" },
+  { name: "Kenya", code: "KE", flag: "🇰🇪" },
+  { name: "Nigeria", code: "NG", flag: "🇳🇬" },
+];
+
+const visaServices = [
+  {
+    title: "B1 VOA / Extension",
+    description: "30-day visa on arrival with extension options. Perfect for short visits and tourism.",
+    link: "/bali-visa-on-arrival-extension",
+    icon: <Navigation className="w-16 h-16" />,
+  },
+  {
+    title: "C1 Visit Visa",
+    description: "Single entry visit visa for tourism purposes. Valid for 60 days with flexible dates.",
+    link: "/visa/c1-tourist-visa",
+    icon: <Globe className="w-16 h-16" />,
+  },
+  {
+    title: "C2 Business Visa",
+    description: "Business visa for meetings and conferences. Includes multiple entry options.",
+    link: "/bali-business-visa-requirements",
+    icon: <Briefcase className="w-16 h-16" />,
+  },
+  {
+    title: "D1 Tourist Visa",
+    description: "60-day tourist visa (B211A) with extensions up to 180 days total stay.",
+    link: "/visa/d1-multiple-entry-tourist",
+    icon: <User className="w-16 h-16" />,
+  },
+  {
+    title: "D2 Business Visa",
+    description: "Multiple entry business visa for professionals. Valid up to 12 months.",
+    link: "/visa/d2-multiple-entry-business",
+    icon: <FileText className="w-16 h-16" />,
+  },
+  {
+    title: "D12 Pre Investment",
+    description: "Pre-investment visa for business setup. Ideal for entrepreneurs and investors.",
+    link: "/visa/d12-pre-investment-visa",
+    icon: <Star className="w-16 h-16" />,
+  },
+  {
+    title: "E33G Digital Nomad",
+    description: "5-year digital nomad visa for remote workers. Live and work in Bali long-term.",
+    link: "/bali-digital-nomad-visa-guide",
+    icon: <Globe className="w-16 h-16" />,
+  },
+  {
+    title: "E28A Investment KITAS",
+    description: "Investment-based residence permit. Long-term stay for investors.",
+    link: "/visa/e28a-investment-kitas-bali",
+    icon: <CreditCard className="w-16 h-16" />,
+  },
+  {
+    title: "Custom Visa Solution",
+    description: "Tailored visa solutions for unique cases. We handle special requirements.",
+    link: "/visa/bali-visa-sponsorship-guide",
+    icon: <FileText className="w-16 h-16" />,
+  },
+];
+
+const benefits = [
+  {
+    title: "Fast Processing",
+    description: "Express service available with same-day processing options for urgent applications",
+    icon: <Clock className="w-20 h-20" />,
+  },
+  {
+    title: "99% Success Rate",
+    description: "Proven track record with 15,000+ visas processed successfully worldwide",
+    icon: <CheckCircle2 className="w-20 h-20" />,
+  },
+  {
+    title: "24/7 Support",
+    description: "Round-the-clock WhatsApp support for your peace of mind anytime, anywhere",
+    icon: <Headphones className="w-20 h-20" />,
+  },
+  {
+    title: "97 Countries",
+    description: "We serve applicants from 97 countries worldwide with local expertise",
+    icon: <Globe className="w-20 h-20" />,
+  },
+];
+
+const socialLinks = [
+  { name: "Instagram", url: "https://instagram.com/balihelp.id", icon: <Instagram className="w-6 h-6" />, gradient: "bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600" },
+  { name: "Facebook", url: "https://facebook.com/BaliHelp", icon: <Facebook className="w-6 h-6" />, color: "bg-blue-600" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/bayu-damopolii-887ab883/", icon: <Linkedin className="w-6 h-6" />, color: "bg-blue-700" },
+  { name: "YouTube", url: "https://youtube.com/@balihelp", icon: <Youtube className="w-6 h-6" />, color: "bg-red-600" },
+  { name: "WhatsApp", url: "https://wa.me/6285727041992", icon: <MessageCircle className="w-6 h-6" />, color: "bg-green-500" },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://balivisa.agency/#organization",
+  "name": "Bali Visa Agency — Official Division of PT Indonesian Visas Agency",
+  "alternateName": [
+    "Bali Visa", "Bali Visas", "Bali Visa Agency", "Bali Visas Agency", "Visa Bali", "Bali Visa 2026", "Bali Visa 2027", "Bali Visa 2026-2027"
+  ],
+  "url": "https://balivisa.agency",
+  "logo": "https://balivisa.agency/logo.webp",
+  "image": "https://balivisa.agency/og-image.png",
+  "description": "Official Bali Division of PT Indonesian Visas Agency. Direct-to-source legal sponsor for Bali VOA, Tourist Visas, KITAS, and Digital Nomad permits. 100% Legal & Verified.",
+  "telephone": "+62-857-2704-1992",
+  "email": "contact@indonesianvisas.agency",
+  "priceRange": "$$",
+  "legalName": "PT Indonesian Visas Agency",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Jl. Tibungsari No.11C, Padangsambian Kaja",
+    "addressLocality": "Denpasar Barat, Denpasar",
+    "addressRegion": "Bali",
+    "postalCode": "80117",
+    "addressCountry": "ID"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -8.6657,
+    "longitude": 115.1764
+  },
+  "hasMap": "https://maps.app.goo.gl/p6t9JSd5CGCDf7jZA",
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+62-857-2704-1992",
+    "contactType": "customer service",
+    "areaServed": "ID",
+    "availableLanguage": ["English", "Indonesian"]
+  },
+  "parentOrganization": {
+    "@type": "Corporation",
+    "@id": "https://indonesianvisas.com/#organization",
+    "name": "PT Indonesian Visas Agency",
+    "taxID": "0100000008117681",
+    "url": "https://indonesianvisas.com"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "200",
+    "bestRating": "5"
+  },
+  "sameAs": [
+    "https://indonesianvisas.com",
+    "https://balihelp.id",
+    "https://bali.enterprises",
+    "https://bali.technology",
+    "https://indodesign.website",
+    "https://maps.app.goo.gl/p6t9JSd5CGCDf7jZA",
+    "https://www.instagram.com/balihelp.id",
+    "https://x.com/IndonesianVisas"
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": "Bayu Damopolii-Manoppo",
+    "jobTitle": "Founder & Strategic Director",
+    "url": "https://www.linkedin.com/in/balihelp/"
+  },
+  "knowsAbout": [
+    "Bali Visa", "Bali Visas", "Bali Visa Agency", "Bali Visas Agency", "Visa Bali", "Bali Visa 2026", "Bali Visa 2027", "Indonesian Visas", "Immigration Bali", "E-VOA Extension"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Bali Visa Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "B1 VOA Bali / Extension",
+          "description": "30-day visa on arrival with extension options for Bali travelers."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Bali Digital Nomad Visa (E33G)",
+          "description": "1-5 year digital nomad visa for remote workers in Bali."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Bali Investor KITAS (E28A)",
+          "description": "Investment-based residence permit for long-term stay in Bali."
+        }
+      }
+    ]
+  }
+};
+
+const productLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Bali Visa on Arrival (VOA) Extension",
+    "description": "30-day extension for Indonesian Visa on Arrival (VOA) B1.",
+    "brand": { "@id": "https://balivisa.agency/#organization" },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "IDR",
+      "price": "500000",
+      "url": "https://balivisa.agency/bali-visa-on-arrival-extension"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Bali Digital Nomad Visa (E33G)",
+    "description": "5-year remote worker KITAS for digital nomads in Bali.",
+    "brand": { "@id": "https://balivisa.agency/#organization" },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "IDR",
+      "price": "15000000",
+      "url": "https://balivisa.agency/bali-digital-nomad-visa-guide"
+    }
+  }
+];
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I get a visa for Bali?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can get a Bali visa through BaliVisa.Agency, the official Bali division of PT Indonesian Visas Agency. Options include Visa on Arrival (30-60 days), C1 Tourist Visa (60-180 days), and E33G Digital Nomad KITAS (1 year)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does a Bali visa cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bali visa costs vary by type: Visa on Arrival (VOA) is IDR 500,000 for 30 days, C1 Tourist Visa starts from IDR 3,500,000, and E33G Digital Nomad KITAS starts from IDR 15,000,000 for 1 year."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I extend my Bali visa online?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Bali visa extensions for VOA and tourist visas can be processed online through Bali Visa Agency, the official division of PT Indonesian Visas Agency."
+      }
+    }
+  ]
+};
+
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Bali Visa Agency",
+  "url": "https://balivisa.agency",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://balivisa.agency/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://balivisa.agency"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Bali Visa Services",
+      "item": "https://balivisa.agency#services"
+    }
+  ]
+};
+
+const servicesLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Bali Visa on Arrival (VOA) Extension",
+    "provider": { "@id": "https://balivisa.agency/#organization" },
+    "areaServed": { "@type": "City", "name": "Bali" },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "VOA Extension",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "30-Day VOA Extension" } }
+      ]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Bali Digital Nomad Visa",
+    "provider": { "@id": "https://balivisa.agency/#organization" },
+    "description": "Remote worker visa for digital nomads living in Bali."
+  }
+];
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [showLegality, setShowLegality] = useState(false);
   const [showBadgeHint, setShowBadgeHint] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState<{ title: string, content: string } | null>(null);
-  const [isFlipped, setIsFlipped] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -50,289 +425,6 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const countries = [
-    { name: "South Africa", code: "ZA", flag: "🇿🇦" },
-    { name: "United States", code: "US", flag: "🇺🇸" },
-    { name: "Australia", code: "AU", flag: "🇦🇺" },
-    { name: "United Kingdom", code: "GB", flag: "🇬🇧" },
-    { name: "Germany", code: "DE", flag: "🇩🇪" },
-    { name: "France", code: "FR", flag: "🇫🇷" },
-    { name: "Japan", code: "JP", flag: "🇯🇵" },
-    { name: "South Korea", code: "KR", flag: "🇰🇷" },
-    { name: "Singapore", code: "SG", flag: "🇸🇬" },
-    { name: "India", code: "IN", flag: "🇮🇳" },
-    { name: "China", code: "CN", flag: "🇨🇳" },
-    { name: "Canada", code: "CA", flag: "🇨🇦" },
-    { name: "Brazil", code: "BR", flag: "🇧🇷" },
-    { name: "Netherlands", code: "NL", flag: "🇳🇱" },
-    { name: "Italy", code: "IT", flag: "🇮🇹" },
-    { name: "Spain", code: "ES", flag: "🇪🇸" },
-    { name: "Sweden", code: "SE", flag: "🇸🇪" },
-    { name: "Norway", code: "NO", flag: "🇳🇴" },
-    { name: "Denmark", code: "DK", flag: "🇩🇰" },
-    { name: "Finland", code: "FI", flag: "🇫🇮" },
-    { name: "Switzerland", code: "CH", flag: "🇨🇭" },
-    { name: "Belgium", code: "BE", flag: "🇧🇪" },
-    { name: "Austria", code: "AT", flag: "🇦🇹" },
-    { name: "Portugal", code: "PT", flag: "🇵🇹" },
-    { name: "Greece", code: "GR", flag: "🇬🇷" },
-    { name: "Poland", code: "PL", flag: "🇵🇱" },
-    { name: "Czech Republic", code: "CZ", flag: "🇨🇿" },
-    { name: "Hungary", code: "HU", flag: "🇭🇺" },
-    { name: "Romania", code: "RO", flag: "🇷🇴" },
-    { name: "Russia", code: "RU", flag: "🇷🇺" },
-    { name: "Ukraine", code: "UA", flag: "🇺🇦" },
-    { name: "Turkey", code: "TR", flag: "🇹🇷" },
-    { name: "Israel", code: "IL", flag: "🇮🇱" },
-    { name: "Saudi Arabia", code: "SA", flag: "🇸🇦" },
-    { name: "UAE", code: "AE", flag: "🇦🇪" },
-    { name: "Qatar", code: "QA", flag: "🇶🇦" },
-    { name: "Kuwait", code: "KW", flag: "🇰🇼" },
-    { name: "Bahrain", code: "BH", flag: "🇧🇭" },
-    { name: "Oman", code: "OM", flag: "🇴🇲" },
-    { name: "New Zealand", code: "NZ", flag: "🇳🇿" },
-    { name: "Philippines", code: "PH", flag: "🇵🇭" },
-    { name: "Thailand", code: "TH", flag: "🇹🇭" },
-    { name: "Vietnam", code: "VN", flag: "🇻🇳" },
-    { name: "Malaysia", code: "MY", flag: "🇲🇾" },
-    { name: "Indonesia", code: "ID", flag: "🇮🇩" },
-    { name: "Hong Kong", code: "HK", flag: "🇭🇰" },
-    { name: "Taiwan", code: "TW", flag: "🇹🇼" },
-    { name: "Mexico", code: "MX", flag: "🇲🇽" },
-    { name: "Argentina", code: "AR", flag: "🇦🇷" },
-    { name: "Chile", code: "CL", flag: "🇨🇱" },
-    { name: "Colombia", code: "CO", flag: "🇨🇴" },
-    { name: "Peru", code: "PE", flag: "🇵🇪" },
-    { name: "Egypt", code: "EG", flag: "🇪🇬" },
-    { name: "Morocco", code: "MA", flag: "🇲🇦" },
-    { name: "Kenya", code: "KE", flag: "🇰🇪" },
-    { name: "Nigeria", code: "NG", flag: "🇳🇬" },
-  ];
-
-  const visaServices = [
-    {
-      title: "B1 VOA / Extension",
-      description: "30-day visa on arrival with extension options. Perfect for short visits and tourism.",
-      link: "https://indonesianvisas.com/services/B1",
-      icon: <Navigation className="w-16 h-16" />,
-    },
-    {
-      title: "C1 Visit Visa",
-      description: "Single entry visit visa for tourism purposes. Valid for 60 days with flexible dates.",
-      link: "https://indonesianvisas.com/services/C1",
-      icon: <Globe className="w-16 h-16" />,
-    },
-    {
-      title: "C2 Business Visa",
-      description: "Business visa for meetings and conferences. Includes multiple entry options.",
-      link: "https://indonesianvisas.com/services/C2",
-      icon: <Briefcase className="w-16 h-16" />,
-    },
-    {
-      title: "D1 Tourist Visa",
-      description: "60-day tourist visa (B211A) with extensions up to 180 days total stay.",
-      link: "https://indonesianvisas.com/services/D1",
-      icon: <User className="w-16 h-16" />,
-    },
-    {
-      title: "D2 Business Visa",
-      description: "Multiple entry business visa for professionals. Valid up to 12 months.",
-      link: "https://indonesianvisas.com/services/D2",
-      icon: <FileText className="w-16 h-16" />,
-    },
-    {
-      title: "D12 Pre Investment",
-      description: "Pre-investment visa for business setup. Ideal for entrepreneurs and investors.",
-      link: "https://indonesianvisas.com/services/D12",
-      icon: <Star className="w-16 h-16" />,
-    },
-    {
-      title: "E33G Digital Nomad",
-      description: "5-year digital nomad visa for remote workers. Live and work in Bali long-term.",
-      link: "https://indonesianvisas.com/services/E33G",
-      icon: <Globe className="w-16 h-16" />,
-    },
-    {
-      title: "E28A Investment KITAS",
-      description: "Investment-based residence permit. Long-term stay for investors.",
-      link: "https://indonesianvisas.com/services/E28A",
-      icon: <CreditCard className="w-16 h-16" />,
-    },
-    {
-      title: "Custom Visa Solution",
-      description: "Tailored visa solutions for unique cases. We handle special requirements.",
-      link: "https://indonesianvisas.com/custom-visa",
-      icon: <FileText className="w-16 h-16" />,
-    },
-  ];
-
-  const benefits = [
-    {
-      title: "Fast Processing",
-      description: "Express service available with same-day processing options for urgent applications",
-      icon: <Clock className="w-20 h-20" />,
-    },
-    {
-      title: "99% Success Rate",
-      description: "Proven track record with 15,000+ visas processed successfully worldwide",
-      icon: <CheckCircle2 className="w-20 h-20" />,
-    },
-    {
-      title: "24/7 Support",
-      description: "Round-the-clock WhatsApp support for your peace of mind anytime, anywhere",
-      icon: <Headphones className="w-20 h-20" />,
-    },
-    {
-      title: "97 Countries",
-      description: "We serve applicants from 97 countries worldwide with local expertise",
-      icon: <Globe className="w-20 h-20" />,
-    },
-  ];
-
-  const socialLinks = [
-    { name: "Instagram", url: "https://instagram.com/balihelp.id", icon: <Instagram className="w-6 h-6" />, gradient: "bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600" },
-    { name: "Facebook", url: "https://facebook.com/BaliHelp", icon: <Facebook className="w-6 h-6" />, color: "bg-blue-600" },
-    { name: "LinkedIn", url: "https://www.linkedin.com/in/bayu-damopolii-887ab883/", icon: <Linkedin className="w-6 h-6" />, color: "bg-blue-700" },
-    { name: "YouTube", url: "https://youtube.com/@balihelp", icon: <Youtube className="w-6 h-6" />, color: "bg-red-600" },
-    { name: "WhatsApp", url: "https://wa.me/6285727041992", icon: <MessageCircle className="w-6 h-6" />, color: "bg-green-500" },
-  ];
-
-
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "@id": "https://www.balivisa.agency/#division",
-    "name": "Bali Visa Agency",
-    "url": "https://www.balivisa.agency",
-    "logo": "https://www.balivisa.agency/logo.webp",
-    "image": "https://www.balivisa.agency/og-image.png",
-    "description": "Official Bali Division of PT Indonesian Visas Agency. Specialized in Bali VOA, extensions, and long-term visas for digital nomads and investors.",
-    "telephone": "+62 857 2704 1992",
-    "priceRange": "$$",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Jl. Tibung Sari No.11C, Padangsambian Kaja",
-      "addressLocality": "Denpasar Barat",
-      "addressRegion": "Bali",
-      "postalCode": "80117",
-      "addressCountry": "ID"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -8.6657,
-      "longitude": 115.1764
-    },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-      ],
-      "opens": "00:00",
-      "closes": "23:59"
-    },
-    "parentOrganization": {
-      "@type": "Organization",
-      "@id": "https://indonesianvisas.com/#organization",
-      "name": "PT Indonesian Visas Agency",
-      "legalName": "PT Indonesian Visas Agency",
-      "url": "https://indonesianvisas.com",
-      "identifier": [
-        {
-          "@type": "PropertyValue",
-          "name": "NIB",
-          "value": "0402260034806"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "AHU",
-          "value": "AHU-00065.AH.02.01.TAHUN 2020"
-        }
-      ],
-      "parentOrganization": {
-        "@type": "Organization",
-        "name": "PT Bali Enterprises Group",
-        "url": "https://bali.enterprises"
-      }
-    },
-    "founder": {
-      "@type": "Person",
-      "name": "Bayu Damopolii-Manoppo",
-      "jobTitle": "Strategic Director",
-      "sameAs": [
-        "https://www.linkedin.com/in/balihelp/",
-        "https://www.linkedin.com/in/bayu-damopolii-887ab883/"
-      ]
-    },
-    "sameAs": [
-      "https://instagram.com/balihelp.id",
-      "https://facebook.com/BaliHelp",
-      "https://www.linkedin.com/in/bayu-damopolii-887ab883/",
-      "https://youtube.com/@balihelp"
-    ],
-    "areaServed": [
-      {
-        "@type": "City",
-        "name": "Bali"
-      },
-      {
-        "@type": "Country",
-        "name": "Indonesia"
-      }
-    ],
-    "knowsAbout": ["Indonesian Visas", "Bali Immigration", "VOA Bali", "KITAS", "E-Visa Indonesia"],
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Bali Visa Services",
-      "itemListElement": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "B1 VOA / Extension",
-            "description": "30-day visa on arrival with extension options."
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "E33G Digital Nomad Visa",
-            "description": "5-year digital nomad visa for remote workers."
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "E28A Investment KITAS",
-            "description": "Investment-based residence permit for long-term stay."
-          }
-        }
-      ]
-    }
-  };
-
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://www.balivisa.agency"
-      }
-    ]
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 w-full overflow-x-hidden">
       <script
@@ -341,7 +433,23 @@ export default function Home() {
       />
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
       />
       {/* Toast */}
 
@@ -367,10 +475,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="/Bali-Help.webp"
             alt="Bali Visa Hero"
-            className="w-full h-full object-cover opacity-10"
+            fill
+            priority
+            className="object-cover opacity-10"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-purple-900/5" />
         </div>
@@ -403,13 +513,13 @@ export default function Home() {
               </AnimatePresence>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6 leading-tight text-slate-800">
-              Bali Visa <span className="text-purple-900 block md:inline">Agency</span>
+              Bali <span className="text-purple-900 block md:inline">Visa</span>
             </h1>
-            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-8 md:mb-10 leading-relaxed">
-              Bali Visa - Gateway to Indonesian Visas
+            <p className="text-sm md:text-base lg:text-lg text-slate-600 mb-8 md:mb-10 leading-relaxed max-w-2xl mx-auto">
+              Bali Division of PT Indonesian Visas Agency - The official Bali visa agency for 2026/2027. Fast, reliable sponsor, and professional visa services for your Bali adventure.
             </p>
             <p className="text-base md:text-xl lg:text-2xl mb-8 md:mb-10 leading-relaxed text-slate-600">
-              Fast, reliable sponsor, and professional visa services for your Bali adventure. We serve 97 countries with expert support and dedicated customer service available 24/7.
+              Get your Bali visa processed easily with trusted sponsorship, expert guidance, and responsive customer support.
             </p>
 
             {/* Stats */}
@@ -456,13 +566,11 @@ export default function Home() {
             </div>
 
             <a
-              href="https://indonesianvisas.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/bali-visa-2026-2027-guide"
               className="bg-slate-800 text-white px-8 md:px-12 py-4 md:py-6 rounded-full font-bold text-base md:text-xl hover:bg-amber-400 hover:text-slate-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg inline-flex items-center gap-2"
             >
               <Globe className="w-6 h-6" />
-              <span>Select Your Country & Apply Now</span>
+              <span>Read the Ultimate 2026-2027 Guide</span>
             </a>
           </div>
 
@@ -575,10 +683,11 @@ export default function Home() {
       {/* Smart System Sponsor ID Section */}
       <section className="py-20 px-4 relative overflow-hidden bg-slate-50 border-y border-slate-200">
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="/Bali-Help.webp"
             alt="Bali Help Smart ID Background"
-            className="w-full h-full object-cover opacity-5"
+            fill
+            className="object-cover opacity-5"
           />
         </div>
 
@@ -635,190 +744,7 @@ export default function Home() {
             </div>
 
             <div className="relative group perspective-1000">
-              {/* 3D Flippable Card */}
-              <motion.div
-                onClick={() => setIsFlipped(!isFlipped)}
-                animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.8, ease: "circOut" }}
-                style={{ transformStyle: "preserve-3d" }}
-                className="relative aspect-[1.58/1] w-full cursor-pointer"
-              >
-                {/* Front Side */}
-                <div
-                  className="absolute inset-0 w-full h-full backface-hidden bg-[#dcf2fe] rounded-3xl shadow-2xl overflow-hidden border border-white/40 p-5 md:p-7 text-slate-800 font-sans tracking-tight"
-                  style={{ backfaceVisibility: "hidden" }}
-                >
-                  {/* KTP Background Patterns & Logo Watermark */}
-                  <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay" />
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.07]">
-                    <img src="/logo.webp" alt="Bali Visa Official Logo Watermark" className="w-1/3 h-auto grayscale" loading="lazy" decoding="async" />
-                  </div>
-
-                  <div className="relative h-full flex flex-col">
-                    {/* Header */}
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-5 bg-red-600 border border-slate-200 relative">
-                          <div className="absolute bottom-0 w-full h-1/2 bg-white" />
-                        </div>
-                        <div className="leading-none">
-                          <div className="text-[10px] md:text-[12px] font-black text-[#1e40af] uppercase">PROVINSI BALI</div>
-                          <div className="text-[8px] md:text-[10px] font-bold text-slate-500 uppercase tracking-wider">SMART SYSTEM IDENTITY</div>
-                        </div>
-                      </div>
-                      <div className="text-[8px] md:text-[12px] font-bold text-slate-400 uppercase">
-                        REG NO: <span className="text-slate-600">NOT_LINKED</span>
-                      </div>
-                    </div>
-
-                    {/* ID Body */}
-                    <div className="flex-1 flex gap-6 md:gap-10">
-                      <div className="flex-1 space-y-2 md:space-y-3">
-                        <div className="flex items-baseline gap-4 mb-4">
-                          <div className="text-xl md:text-2xl font-black text-slate-800 tracking-tight">ID No</div>
-                          <div className="text-xl md:text-2xl font-black text-slate-800 tracking-wider">: 9971-0024-889100</div>
-                        </div>
-
-                        <div className="space-y-1 md:space-y-2 mt-4">
-                          {[
-                            { label: "Nama", value: "SARAH J. WILLIAMS" },
-                            { label: "No Passport", value: "A1234567" },
-                            { label: "Tempat/Tgl Lahir", value: "LONDON, 01-01-1990" },
-                            { label: "Jenis Kelamin", value: "PEREMPUAN" },
-                            { label: "Alamat", value: "Jl. Sunset Road No.7, Kuta, Bali Indonesia." },
-                            { label: "Pekerjaan", value: "INVESTOR" },
-                            { label: "Kewarganegaraan", value: "UNITED KINGDOM" },
-                            { label: "Jenis Visa", value: "E28A INVESTOR KITAS" }
-                          ].map((item, i) => (
-                            <div key={i} className="flex gap-2 text-[8px] md:text-[11px] leading-tight">
-                              <div className="w-20 md:w-28 font-bold text-slate-600 uppercase shrink-0">{item.label}</div>
-                              <div className="font-bold shrink-0">:</div>
-                              <div className="font-black uppercase text-slate-700">{item.value}</div>
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="flex gap-10 pt-2">
-                          <div>
-                            <div className="text-[7px] md:text-[9px] font-bold text-slate-400 uppercase">ISSUED</div>
-                            <div className="text-[10px] md:text-[13px] font-black text-slate-800">2025-12-01</div>
-                          </div>
-                          <div>
-                            <div className="text-[7px] md:text-[9px] font-bold text-slate-400 uppercase">EXPIRES</div>
-                            <div className="text-[10px] md:text-[13px] font-black text-amber-600 flex items-center gap-1 uppercase">
-                              LIFETIME ACCESS <Globe className="w-3 h-3" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Photo Area */}
-                      <div className="w-22 md:w-32 pt-12 flex flex-col items-center gap-2">
-                        <div className="w-full aspect-[3/4] bg-white rounded-xl border border-blue-200 shadow-inner flex items-center justify-center relative overflow-hidden">
-                          <User className="w-14 md:w-20 text-blue-100" />
-                          <div className="absolute bottom-0 w-full h-4 bg-blue-500/10 flex items-center justify-center">
-                            <div className="w-1/2 h-[1px] bg-blue-200" />
-                          </div>
-                        </div>
-                        <div className="text-[7px] md:text-[9px] font-bold text-slate-400 text-center uppercase leading-tight">
-                          Smart ID by <br /> indonesianvisas.com
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Back Side */}
-                <div
-                  className="absolute inset-0 w-full h-full backface-hidden bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 p-8 flex flex-col items-center justify-between"
-                  style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-                >
-                  <div className="w-full flex justify-center items-center gap-3 pb-6 border-b border-slate-50">
-                    <div className="w-10 h-10 bg-[#1e40af] rounded-xl flex items-center justify-center p-2 shadow-lg shadow-blue-900/20">
-                      <div className="grid grid-cols-2 gap-1">
-                        <div className="w-2 h-2 bg-white rounded-full" />
-                        <div className="w-2 h-2 bg-white rounded-full" />
-                        <div className="w-2 h-2 bg-white rounded-full" />
-                        <div className="w-2 h-2 bg-white rounded-full" />
-                      </div>
-                    </div>
-                    <div className="text-base font-black text-[#1e40af] tracking-wider uppercase">SMART VERIFICATION CODE</div>
-                  </div>
-
-                  <div className="flex-1 w-full flex items-center justify-center gap-8 md:gap-12 py-4 md:py-6">
-                    <div className="flex flex-col items-center gap-6">
-                      {/* Contactless with Signal Vibration */}
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="flex items-center justify-center h-8 w-14 relative">
-                          {[0, 1, 2, 3].map((i) => (
-                            <motion.div
-                              key={i}
-                              animate={{
-                                opacity: [0.2, 1, 0.2],
-                                scale: [1, 1.05, 1],
-                              }}
-                              transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                delay: i * 0.3,
-                                ease: "easeInOut"
-                              }}
-                              className="absolute border-r-[3px] border-[#1e40af] rounded-full"
-                              style={{
-                                width: `${16 + i * 10}px`,
-                                height: `${16 + i * 10}px`,
-                                left: `${-8 + i * 2}px`
-                              }}
-                            />
-                          ))}
-                        </div>
-                        <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">CONTACTLESS</div>
-                      </div>
-
-                      {/* Barcode */}
-                      <div className="flex flex-col items-center gap-1">
-                        <div className="flex gap-1 h-10">
-                          {[1, 3, 1, 2, 1, 3, 1, 2, 1].map((w, i) => (
-                            <div key={i} className="bg-slate-900" style={{ width: `${w * 1.5}px` }} />
-                          ))}
-                        </div>
-                        <div className="text-[10px] font-black text-slate-900 tracking-widest uppercase">A1234567</div>
-                      </div>
-                    </div>
-
-                    {/* QR Code */}
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="w-32 h-32 md:w-36 md:h-36 bg-white p-4 rounded-[32px] shadow-[0_15px_40px_rgba(0,0,0,0.1)] border border-slate-50 flex items-center justify-center">
-                        <img
-                          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NOT_LINKED&color=0f172a"
-                          alt="Bali Visa Smart ID Verification QR Code"
-                          className="w-full h-full"
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </div>
-                      <div className="text-[11px] md:text-[13px] font-black text-[#1e40af] tracking-[0.4em] uppercase">NOT_LINKED</div>
-                    </div>
-                  </div>
-
-                  <div className="w-full text-center pt-3 border-t border-slate-100">
-                    <div className="text-[9px] md:text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] leading-relaxed">
-                      OFFICIAL SPONSOR ID • SECURED VIA IDIV SYSTEM • INDONESIANVISAS.COM
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Floating Badge */}
-              <div className="absolute -bottom-8 -right-6 bg-amber-400 text-slate-900 p-6 rounded-2xl shadow-xl font-black text-center rotate-3 hidden md:block z-20 pointer-events-none">
-                <div className="text-sm uppercase tracking-wider mb-1">100% Verified</div>
-                <div className="text-2xl italic">Expat Assistance</div>
-              </div>
-
-              {/* Flip Hint */}
-              <div className="mt-4 text-center">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest animate-pulse">Click Card to Flip</span>
-              </div>
+              <SmartIDCard />
             </div>
           </div>
         </div>
@@ -1111,8 +1037,15 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-20 px-4 bg-slate-900 text-slate-300">
+      <footer className="py-12 px-4 bg-slate-900 text-slate-300">
         <div className="max-w-7xl mx-auto">
+          {/* Top of Footer: Copyright & License */}
+          <div className="text-center mb-16 space-y-2">
+            <p className="text-white font-bold text-lg">© 2026 Bali Visa Agency. All Rights Reserved.</p>
+            <p className="text-sm opacity-60">Licensed Travel & Visa Agency (KBLI: 79111)</p>
+            <div className="w-24 h-1 bg-amber-400 mx-auto mt-4 rounded-full" />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 text-left">
             {/* Column 1: Brand */}
             <div className="space-y-6">
@@ -1169,32 +1102,36 @@ export default function Home() {
                 ))}
               </div>
               <p className="text-sm font-semibold text-white mb-2">Bali Office</p>
-              <p className="text-xs opacity-70 leading-relaxed">
+              <p className="text-xs opacity-70 leading-relaxed mb-4">
                 Jl. Tibung Sari No.11C, Padangsambian Kaja, Denpasar Barat, Bali 80117
               </p>
+              <a
+                href="/site-map"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-amber-400 rounded-xl text-xs font-black hover:bg-amber-400 hover:text-slate-900 transition-all border border-slate-700 shadow-lg"
+              >
+                <MapPin className="w-3 h-3" />
+                SITEMAP
+              </a>
             </div>
           </div>
 
           <div className="border-t border-slate-800 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-left">
-              <div className="text-xs opacity-50 space-y-1">
-                <p>© 2026 Bali Visa Agency. All Rights Reserved.</p>
-                <p>Licensed Travel & Visa Agency (KBLI: 79111)</p>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              {/* Left Side: Ecosystem Domains */}
+              <div className="flex flex-wrap gap-4 justify-center md:justify-start opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+                <a href="https://bali.enterprises" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold hover:text-white">bali.enterprises</a>
+                <a href="https://indonesianvisas.com" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold hover:text-white">indonesianvisas.com</a>
+                <a href="https://balihelp.id" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold hover:text-white">balihelp.id</a>
+                <a href="https://bali.technology" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold hover:text-white">bali.technology</a>
+                <a href="https://indodesign.website" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold hover:text-white">indodesign.website</a>
               </div>
 
+              {/* Right Side: Policy Links */}
               <div className="flex flex-wrap gap-6 text-xs font-medium">
                 <a href="https://indonesianvisas.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
                 <a href="https://indonesianvisas.com/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Terms & Conditions</a>
                 <a href="https://indonesianvisas.com/refund" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Refund Policy</a>
               </div>
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
-              <a href="https://bali.enterprises" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">bali.enterprises</a>
-              <a href="https://indonesianvisas.com" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">indonesianvisas.com</a>
-              <a href="https://balihelp.id" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">balihelp.id</a>
-              <a href="https://bali.technology" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">bali.technology</a>
-              <a href="https://indodesign.website" target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase tracking-widest font-bold">indodesign.website</a>
             </div>
           </div>
         </div>

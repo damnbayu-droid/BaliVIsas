@@ -10,19 +10,26 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Bali Visa Agency - Official E-VOA & Indonesian Visa Services",
-  description: "Official Bali Division of PT Indonesian Visas Agency. Trusted support for E-VOA, extensions, Investor KITAS, and company formation. NIB: 0402260034806. Get your Bali Visa fast and 100% legal.",
+  title: "Bali Visa — Official Bali Division of PT Indonesian Visas Agency",
+  description: "Official Bali Division of PT Indonesian Visas Agency. Trusted support for Bali Visa, E-VOA, extensions, Investor KITAS, and Bali company formation. NIB: 0402260034806. 100% Legal.",
   keywords: [
-    "Bali Visa Agency", 
-    "E-VOA Bali", 
-    "Visa on Arrival Indonesia", 
-    "Investor KITAS Bali", 
-    "Bali Visa Extension", 
-    "PT Indonesian Visas Agency", 
-    "Indonesian Visa Agent", 
-    "NIB 0402260034806", 
-    "Bali Company Formation", 
-    "PMA Registration Bali"
+    "Bali Visa",
+    "Bali Visas",
+    "Bali Visa Agency",
+    "Bali Visas Agency",
+    "Visa Bali",
+    "Bali Visa 2026",
+    "Bali Visa 2027",
+    "Bali Visa 2026-2027",
+    "Bali Visa Price",
+    "Bali Visa Cost",
+    "Bali Visa Extension",
+    "Extend Visa Bali",
+    "Bali Digital Nomad Visa",
+    "Bali Nomad Visa",
+    "Bali Visa on Arrival",
+    "VOA Bali",
+    "PT Indonesian Visas Agency"
   ],
   authors: [{ name: "Bali Visa Agency by Indonesian Visas ®" }],
   metadataBase: new URL("https://www.balivisa.agency"),
