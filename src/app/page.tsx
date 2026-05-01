@@ -97,55 +97,55 @@ const visaServices = [
   {
     title: "B1 VOA / Extension",
     description: "30-day visa on arrival with extension options. Perfect for short visits and tourism.",
-    link: "/bali-visa-on-arrival-extension",
+    link: "https://indonesianvisas.com/services/B1",
     icon: <Navigation className="w-16 h-16" />,
   },
   {
     title: "C1 Visit Visa",
     description: "Single entry visit visa for tourism purposes. Valid for 60 days with flexible dates.",
-    link: "/visa/c1-tourist-visa",
+    link: "https://indonesianvisas.com/services/C1",
     icon: <Globe className="w-16 h-16" />,
   },
   {
     title: "C2 Business Visa",
     description: "Business visa for meetings and conferences. Includes multiple entry options.",
-    link: "/bali-business-visa-requirements",
+    link: "https://indonesianvisas.com/services/C2",
     icon: <Briefcase className="w-16 h-16" />,
   },
   {
     title: "D1 Tourist Visa",
     description: "60-day tourist visa (B211A) with extensions up to 180 days total stay.",
-    link: "/visa/d1-multiple-entry-tourist",
+    link: "https://indonesianvisas.com/services/D1",
     icon: <User className="w-16 h-16" />,
   },
   {
     title: "D2 Business Visa",
     description: "Multiple entry business visa for professionals. Valid up to 12 months.",
-    link: "/visa/d2-multiple-entry-business",
+    link: "https://indonesianvisas.com/services/D2",
     icon: <FileText className="w-16 h-16" />,
   },
   {
     title: "D12 Pre Investment",
     description: "Pre-investment visa for business setup. Ideal for entrepreneurs and investors.",
-    link: "/visa/d12-pre-investment-visa",
+    link: "https://indonesianvisas.com/services/D12",
     icon: <Star className="w-16 h-16" />,
   },
   {
-    title: "E33G Digital Nomad",
-    description: "5-year digital nomad visa for remote workers. Live and work in Bali long-term.",
-    link: "/bali-digital-nomad-visa-guide",
+    title: "E33G Remote Worker KITAS",
+    description: "1-year digital nomad visa for remote workers. Live and work in Bali long-term.",
+    link: "https://indonesianvisas.com/services/E33G",
     icon: <Globe className="w-16 h-16" />,
   },
   {
     title: "E28A Investment KITAS",
-    description: "Investment-based residence permit. Long-term stay for investors.",
-    link: "/visa/e28a-investment-kitas-bali",
+    description: "Investment-based 2-years residence permit. Long-term stay for investors.",
+    link: "https://indonesianvisas.com/services/E28A",
     icon: <CreditCard className="w-16 h-16" />,
   },
   {
     title: "Custom Visa Solution",
     description: "Tailored visa solutions for unique cases. We handle special requirements.",
-    link: "/visa/bali-visa-sponsorship-guide",
+    link: "/bali-visa-2026-2027-guide",
     icon: <FileText className="w-16 h-16" />,
   },
 ];
@@ -526,13 +526,13 @@ export default function Home() {
             <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-8 mb-10 md:mb-12">
               <div
                 onClick={() => setSelectedInfo({
-                  title: "16+ Years Experience",
+                  title: "01 Leading Industry",
                   content: "We have over 16 years of specialized experience in Indonesian Visa Services. We are a fully legal and registered Sponsor Company with the Ministry of Law & Human Rights."
                 })}
                 className="group relative p-3 md:p-6 rounded-2xl bg-white border-2 border-slate-200 hover:border-purple-900 transition-all cursor-pointer hover:shadow-lg active:scale-95 flex flex-col justify-center"
               >
-                <div className="text-lg md:text-4xl font-black mb-1 md:mb-2 text-purple-900">16+</div>
-                <div className="text-[8px] md:text-sm font-bold text-slate-600 uppercase tracking-tighter leading-tight">Years Exp</div>
+                <div className="text-lg md:text-4xl font-black mb-1 md:mb-2 text-purple-900">01</div>
+                <div className="text-[8px] md:text-sm font-bold text-slate-600 uppercase tracking-tighter leading-tight">Leading Industry</div>
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <ShieldCheck className="w-3 h-3 text-purple-900" />
                 </div>
@@ -565,13 +565,22 @@ export default function Home() {
               </div>
             </div>
 
-            <a
-              href="/bali-visa-2026-2027-guide"
-              className="bg-slate-800 text-white px-8 md:px-12 py-4 md:py-6 rounded-full font-bold text-base md:text-xl hover:bg-amber-400 hover:text-slate-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg inline-flex items-center gap-2"
-            >
-              <Globe className="w-6 h-6" />
-              <span>Read the Ultimate 2026-2027 Guide</span>
-            </a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="https://indonesianvisas.com"
+                className="w-full sm:w-auto bg-slate-800 text-white px-8 md:px-12 py-4 md:py-6 rounded-full font-bold text-base md:text-xl hover:bg-amber-400 hover:text-slate-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg inline-flex items-center justify-center gap-2"
+              >
+                <Globe className="w-6 h-6" />
+                <span>Select Your Country</span>
+              </a>
+              <a
+                href="https://indonesianvisas.com/gci"
+                className="w-full sm:w-auto bg-purple-900 text-white px-8 md:px-12 py-4 md:py-6 rounded-full font-bold text-base md:text-xl hover:bg-purple-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg inline-flex items-center justify-center gap-2 border-2 border-purple-800"
+              >
+                <Star className="w-6 h-6" />
+                <span>GCI - Global Cityzen of Indonesia</span>
+              </a>
+            </div>
           </div>
 
           {/* Process Steps */}

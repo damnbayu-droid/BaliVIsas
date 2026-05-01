@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     "PT Indonesian Visas Agency"
   ],
   authors: [{ name: "Bali Visa Agency by Indonesian Visas ®" }],
-  metadataBase: new URL("https://www.balivisa.agency"),
+  metadataBase: new URL("https://balivisa.agency"),
   alternates: {
     canonical: "/",
   },
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Bali Visa Agency - #1 Trusted Visa Partner in Bali",
     description: "Official Bali Division of PT Indonesian Visas Agency. Professional support for E-VOA, KITAS, and Stay Permits. 100% Legal & Verified.",
-    url: "https://www.balivisa.agency",
+    url: "https://balivisa.agency",
     siteName: "Bali Visa Agency",
     images: [
       {
