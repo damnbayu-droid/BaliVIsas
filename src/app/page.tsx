@@ -299,7 +299,27 @@ const productLd = [
       "@type": "Offer",
       "priceCurrency": "IDR",
       "price": "500000",
+      "availability": "https://schema.org/InStock",
       "url": "https://balivisa.agency/bali-visa-on-arrival-extension"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "200",
+      "bestRating": "5"
+    },
+    "review": {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Sarah J. Williams"
+      },
+      "reviewBody": "Seamless extension process. The Bali Visa Agency team handled everything professionally and much faster than expected!"
     }
   },
   {
@@ -312,7 +332,27 @@ const productLd = [
       "@type": "Offer",
       "priceCurrency": "IDR",
       "price": "15000000",
+      "availability": "https://schema.org/InStock",
       "url": "https://balivisa.agency/bali-digital-nomad-visa-guide"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "200",
+      "bestRating": "5"
+    },
+    "review": {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Michael Chen"
+      },
+      "reviewBody": "Got my Nomad Visa through them. Direct sponsorship meant no hidden fees and clear communication. Highly recommended for digital nomads."
     }
   }
 ];
